@@ -38,8 +38,7 @@ int print_int(const char *format, int count, va_list args, int *flag)
 	char buffer[1024];
 
 	n = va_arg(args, int);
-	signedNumberToString(n, DECIMAL, buffer, format, count);
-
+	signedNumberToString(n, DECIMAL, buffer, format[count], flag);
 	return (print_string(buffer, flag, 1));
 
 }
@@ -88,6 +87,7 @@ int setFlags(const char *fmt, int *flags, int j, va_list args)
 {
 	int i = j;
 
+	flags[0] = flags[1] = flags[2] = flags[3] = flags[4] = 0;
 	while ((!isDigit(fmt[i]) && !isAlpha(fmt[i])) || fmt[i] == '0')
 	{
 		switch (fmt[i])
