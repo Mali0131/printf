@@ -98,34 +98,24 @@ int isDigit(char c)
  */
 int setFlags(const char *fmt, int *flags, int j, va_list args)
 {
-	int i = j;
+	int i = j, c;
 
 	flags[0] = flags[1] = flags[2] =
 		flags[3] = flags[4] = flags[5] = 0;
 	while ((!isDigit(fmt[i]) && !isAlpha(fmt[i]) && fmt[i] != '.') ||
 			fmt[i] == '0')
 	{
-		switch (fmt[i])
-		{
-		case '-':
+		c = fmt[i];
+		if (c == '-')
 			flags[0] = 1;
-			break;
-		case ' ':
-		case '+':
+		else if (c == ' ' || c == '+')
 			flags[1] = fmt[i];
-			break;
-		case '0':
+		else if (c == '0')
 			flags[2] = 1;
-			break;
-		case '#':
+		else if (c == '#')
 			flags[3] = 1;
-			break;
-		case '*':
+		else if (c == '*')
 			flags[4] = va_arg(args, int);
-			break;
-		default:
-			break;
-		}
 		i++;
 	}
 	if (isDigit(fmt[i]))
@@ -135,6 +125,11 @@ int setFlags(const char *fmt, int *flags, int j, va_list args)
 	{
 		i++;
 		i += getDigitsValue(fmt, &flags[5], i);
+		if (fmt[i] == '*')
+		{
+			flags[5] = va_arg(args, int);
+			i++;
+		}
 	}
 	return (i - j);
 }
