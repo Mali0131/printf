@@ -1,1 +1,2 @@
-Team project "printf"
+# my_printf
+ALX project, to implement C-printf function - Muhammad Ali
